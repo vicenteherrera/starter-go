@@ -103,18 +103,6 @@ If you create a dependency that is not uploaded to GitHub or other online locati
 go mod edit -replace example.com/mydep=../path-to-mydep
 ```
 
-### Compiling from the command line
-
-Just run:
-
-```bash
-go build cmd/
-```
-
-And a new binary with the same name as your project's directory will appear in it.
-
-## General practices
-
 ### Directory structure
 
 For a binary project the recommended directory structure is this:
@@ -142,6 +130,24 @@ make build
 ```
 
 And a new binary with the same name as your project's directory will appear in it.
+
+## Building a container image
+
+Use `build/Containerfile` as an example (it's what has been previously called a Dockerfile). It uses two stages and a distroless go base image.
+
+Build it for example with:
+
+```bash
+docker build -f build/Containerfile -t vicenteherrera/starter-go .
+# or using Makefile
+make container-build
+```
+
+You can test its execution with:
+
+```bash
+docker run --rm -it vicenteherrera/starter-go --help
+```
 
 ## Developing in Go
 

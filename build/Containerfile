@@ -1,0 +1,11 @@
+FROM golang:1.17 as builder
+WORKDIR /starter-go
+COPY go.mod go.sum ./
+COPY . .
+RUN GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s" -o starter-go cmd/starter-go/main.go
+RUN strip starter-go
+
+FROM gcr.io/distroless/base
+COPY --from=builder /starter-go/starter-go /bin/starter-go
+EXPOSE 5000
+ENTRYPOINT [ "/bin/starter-go"]
