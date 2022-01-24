@@ -55,3 +55,6 @@ Some popular options to edit Go code are:
   * [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go) extension
 * [vim](https://danielmiessler.com/study/vim/)
   * [vim-go](https://github.com/fatih/vim-go) plugin
+
+The Go extension for VS Code will install additional Go binaries when it detects a Go program, and will use our local `GOPATH` if configured correctly. So you have to start VS Code from a terminal or environment where your configuration is set up as explained before.
+
