@@ -1,34 +1,58 @@
 package main
 
 import (
-	"flag"
+	"errors"
 	"fmt"
 	"os"
+
+	log "github.com/sirupsen/logrus"
+
+	"github.com/spf13/pflag"
+	"github.com/spf13/viper"
 )
 
 func main() {
+	if err := configure(); err != nil {
+		fmt.Printf("%s \n\n", err)
 
-	wordPtr := flag.String("word", "foo", "a string")
-	numbPtr := flag.Int("numb", 42, "an int")
-	forkPtr := flag.Bool("fork", false, "a bool")
+		pflag.Usage()
+		os.Exit(1)
+	}
 
-	flag.Usage = Usage
+	log.SetOutput(os.Stdout)
+	log.SetLevel(log.TraceLevel)
+	log.Info("Started starter-go ")
+	log.Info("Server name: " + viper.GetString("server_name"))
+	log.Info("Server host: " + viper.GetString("host"))
+	log.Info("Server port: " + viper.GetString("port"))
 
-	var svar string
-	flag.StringVar(&svar, "svar", "bar", "dos")
-
-	flag.Parse()
-
-	fmt.Println("word:", *wordPtr)
-	fmt.Println("numb:", *numbPtr)
-	fmt.Println("fork:", *forkPtr)
-	fmt.Println("svar:", svar)
-	fmt.Println("tail:", flag.Args())
+	//log.Fatal(loop...)
 }
 
-func Usage() {
-	w := flag.CommandLine.Output() // may be os.Stderr - but not necessarily
-	fmt.Fprintf(w, "Usage of %s: ...custom preamble... \n", os.Args[0])
-	flag.PrintDefaults()
-	fmt.Fprintf(w, "...custom postamble ... \n")
+func configure() error {
+	viper.AutomaticEnv()
+
+	viper.SetConfigName("config")         // name of config file (without extension)
+	viper.SetConfigType("yaml")           // REQUIRED if the config file does not have the extension in the name
+	viper.AddConfigPath("./test/")        // path to look for the config file in
+	viper.AddConfigPath("$HOME/.appname") // call multiple times to add many search paths
+	viper.AddConfigPath(".")              // optionally look for config in the working directory
+	err := viper.ReadInConfig()           // Find and read the config file
+	if err != nil {                       // Handle errors reading the config file
+		panic(fmt.Errorf("fatal error config file: %w", err))
+	}
+
+	pflag.String("server_name", "", "Server name")
+	pflag.Bool("test", false, "Run in test mode")
+	pflag.String("host", "localhost", "Host to use")
+	pflag.Int("port", 8080, "Port to use")
+
+	pflag.VisitAll(func(flag *pflag.Flag) { viper.BindPFlag(flag.Name, flag) })
+	pflag.Parse()
+
+	if viper.Get("server_name") == "" {
+		return errors.New("server_token is required")
+	}
+
+	return nil
 }

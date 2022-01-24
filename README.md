@@ -164,11 +164,15 @@ docker run --rm -it vicenteherrera/starter-go --help
 
 ## Developing in Go
 
-### Parsing command line parameters
+### Reading configuration
 
-To parse command line parameters as configurable options to your Go program and display help, use the builtin Go library `flag`.
+For reading configuration from a file, command line parameters, or environment variables, we will use the powerful libraries [Viper](https://github.com/spf13/viper) and [pflag](https://github.com/spf13/pflag).
 
-You can find a [nice tutorial at "Go by example"](https://gobyexample.com/command-line-flags) as well as see how it is used in `cmd/starter-go/main.go` in this repository.
+See the example usage on this repo in `cmd/starter-go/main.go`.
+
+### Logging
+
+We will use [logrus](github.com/sirupsen/logrus).
 
 ## Testing
 
