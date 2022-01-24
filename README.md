@@ -166,4 +166,10 @@ Automatic Mock generation:
 * [Gomock](https://github.com/golang/mock/)
 
 
+## Code Style
 
+Read [Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md).
+
+## Architecture
+
+Read [The Twelve-Factor App](https://12factor.net/).
