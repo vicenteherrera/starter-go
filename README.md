@@ -45,3 +45,13 @@ export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 ```
 
 This will be set once for the current user. For different Go projects under the same use, we will use _Go modules_.
+
+### IDEs and code editors
+
+Some popular options to edit Go code are:
+
+* [Goland](https://www.jetbrains.com/go/buy/#commercial) (not free)
+* [Visual Studio Code](https://code.visualstudio.com/)
+  * [Go](https://marketplace.visualstudio.com/items?itemName=golang.Go) extension
+* [vim](https://danielmiessler.com/study/vim/)
+  * [vim-go](https://github.com/fatih/vim-go) plugin
