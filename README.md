@@ -157,9 +157,13 @@ To parse command line parameters as configurable options to your Go program and 
 
 You can find a [nice tutorial at "Go by example"](https://gobyexample.com/command-line-flags) as well as see how it is used in `cmd/starter-go/main.go` in this repository.
 
+## Testing
 
+Test suite:
+* [Ginkgo test suite](https://onsi.github.io/ginkgo/)
 
-
+Automatic Mock generation:
+* [Gomock](https://github.com/golang/mock/)
 
 
 

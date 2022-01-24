@@ -5,6 +5,8 @@ build:
 run:
 	./starter-go
 
+test:
+	ginkgo -randomizeAllSpecs -randomizeSuites -failOnPending -trace -race -progress -cover -r
 
 container-build:
 	docker build -f build/Containerfile -t vicenteherrera/starter-go .
