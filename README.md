@@ -16,7 +16,11 @@ I created this repo for my own sake to take notes on this recommendations, commo
 
 The official _Go_ website [https://go.dev/doc/install](https://go.dev/doc/install) provides steps to install required Go binaries and files, for Linux, Mac or Windows.
 
-It will also instruct you to add the Go binaries directory to your path.
+It will also instruct you to add the Go binaries directory to your path, something like this on Linux
+
+```bash
+export PATH=$PATH:/usr/local/go/bin
+```
 
 Then you can verify the installation worked by running:
 
@@ -24,3 +28,20 @@ Then you can verify the installation worked by running:
 go version
 ```
 
+If you are using go in WSL2 Linux inside Windows, it may be useful to install it also on the Windows part.
+
+### Set GOPATH for local user
+
+On Linux when you want to gobally install a Go binary using `go install` it will try to use `/usr/local/go/bin/` directory to create binaries and `/usr/local/go/pkg/` to cache non-main packages. But it will fail as it requires root to write there. Instead of messing up with `sudo`, let's create a directory local to the user for this:
+
+```bash
+mkdir -p $HOME/go/bin
+```
+Modify your configuration to set the `GOPATH` variable and path:
+
+```bash
+export GOPATH=/usr/local/go
+export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+```
+
+This will be set once for the current user. For different Go projects under the same use, we will use _Go modules_.
