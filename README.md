@@ -44,7 +44,7 @@ export GOPATH=/usr/local/go
 export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 ```
 
-This will be set once for the current user. For different Go projects under the same use, we will use _Go modules_.
+This will be set once for the current user. For different Go projects under the same use, we will use _Go modules_. This will also allow updating the Go version by just removing `/usr/local/go` directory and extracting a new version there without having to backup anything.
 
 ### Is it neccesary to set GO111MODULE?
 
