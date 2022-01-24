@@ -58,3 +58,21 @@ Some popular options to edit Go code are:
 
 The Go extension for VS Code will install additional Go binaries when it detects a Go program, and will use our local `GOPATH` if configured correctly. So you have to start VS Code from a terminal or environment where your configuration is set up as explained before.
 
+## Creating a Go program
+
+### First step and Go modules.
+
+When starting a program you should use _Go modules_. It was an optional feature added some time ago, but now is the standard for handling and locating dependencies. [Learn more about Go modules here](https://go.dev/doc/tutorial/create-module).
+
+If for example you are creating a program that will be commited to a git repository located at [github.com/vicenteherrera/starter-go](github.com/vicenteherrera/starter-go) you should initialize this directory using:
+
+```bash
+# (You don't really need to do this on this repo, it has already been executed)
+go mod init github.com/vicenteherrera/starter-go
+```
+
+This will create a `go.mod` file defining that name and go version.
+
+Later on other projects can use that specification to locate and download that module code as a dependency if it's a library. But you also need to do it for the main project to initialize using other modules that you will import.
+
+The alternative to this is installing all dependencies for a Go project globally or on a `GOPATH` variable defined directory that you change for each project specified directory, which takes time and prune to errors.
