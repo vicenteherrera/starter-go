@@ -101,7 +101,13 @@ go build
 
 And a new binary with the same name as your project's directory will appear in it.
 
+## General practices
 
+### Parsing command line parameters
+
+To parse command line parameters as configurable options to your Go program and display help, use the builtin Go library `flag`.
+
+You can find a [nice tutorial at "Go by example"](https://gobyexample.com/command-line-flags) as well as see how it is used in `main.go` in this repository.
 
 
 
