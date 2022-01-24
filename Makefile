@@ -1,7 +1,7 @@
 .PHONY: build
 
 build:
-	go build cmd/
+	go build -o starter-go cmd/starter-go/main.go
 
 run:
 	./starter-go

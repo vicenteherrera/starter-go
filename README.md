@@ -124,7 +124,7 @@ For a binary project the recommended directory structure is this:
 Just run:
 
 ```bash
-go build cmd/
+go build -o starter-go cmd/starter-go/main.go
 # or using Makefile
 make build
 ```
