@@ -137,6 +137,8 @@ Just run:
 
 ```bash
 go build cmd/
+# or using Makefile
+make build
 ```
 
 And a new binary with the same name as your project's directory will appear in it.
