@@ -76,3 +76,36 @@ This will create a `go.mod` file defining that name and go version.
 Later on other projects can use that specification to locate and download that module code as a dependency if it's a library. But you also need to do it for the main project to initialize using other modules that you will import.
 
 The alternative to this is installing all dependencies for a Go project globally or on a `GOPATH` variable defined directory that you change for each project specified directory, which takes time and prune to errors.
+
+### Adding dependencies
+
+Whenever you add a dependency using `import`, you can track those running from the command line:
+
+```bash
+go mod tidy
+```
+
+If you create a dependency that is not uploaded to GitHub or other online location, and uses a naming like `example.org/mydep`, you can specify the local directory to fetch it from with:
+
+```bash
+go mod edit -replace example.com/mydep=../path-to-mydep
+```
+
+### Compiling from the command line
+
+Just run:
+
+```bash
+go build
+```
+
+And a new binary with the same name as your project's directory will appear in it.
+
+
+
+
+
+
+
+
+
