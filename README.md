@@ -46,6 +46,18 @@ export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 
 This will be set once for the current user. For different Go projects under the same use, we will use _Go modules_.
 
+### Is it neccesary to set GO111MODULE?
+
+Not any more, it's the default setting.
+
+Some instructions may include specifics steps for Go version <1.16 that define that variable temporarily, like:
+
+```bash
+GO111MODULE=on go get github.com/golang/mock/mockgen@v1.6.0
+```
+
+If you use a recent version of Go it is not neccesary.
+
 ### IDEs and code editors
 
 Some popular options to edit Go code are:
