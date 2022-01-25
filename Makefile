@@ -21,6 +21,6 @@ container-build:
 	docker build -f build/Containerfile -t vicenteherrera/starter-go .
 
 container-run:
-	docker run --rm -it vicenteherrera/starter-go --help
+	docker run --rm -it -v "$$(pwd)"/test/in.yaml:/bin/in.yaml vicenteherrera/starter-go
 
 container-build-run: container-build container-run
