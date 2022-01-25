@@ -37,14 +37,14 @@ If you are using go in WSL2 Linux inside Windows, it may be useful to install it
 On Linux when you want to gobally install a Go binary using `go install` it will try to use `/usr/local/go/bin/` directory to create binaries and `/usr/local/go/pkg/` to cache non-main packages. But it will fail as it requires root to write there. Instead of messing up with `sudo`, let's create a directory local to the user for this:
 
 ```bash
-mkdir -p $HOME/go/bin
+mkdir -p $HOME/.go/bin
 ```
 
 Modify your configuration to set the `GOPATH` variable and path:
 
 ```bash
-export GOPATH=/usr/local/go
-export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+export GOPATH="$HOME"/.go/
+export PATH="$GOPATH"/bin:/usr/local/go/bin:$PATH
 ```
 
 This will be set once for the current user. For different Go projects under the same use, we will use _Go modules_. This will also allow updating the Go version by just removing `/usr/local/go` directory and extracting a new version there without having to backup anything.
