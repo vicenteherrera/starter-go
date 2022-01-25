@@ -6,6 +6,7 @@ import (
 	"os"
 
 	log "github.com/sirupsen/logrus"
+	"github.com/vicenteherrera/starter-go/pkg/sample"
 
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
@@ -20,12 +21,9 @@ func main() {
 
 	log.SetOutput(os.Stdout)
 	log.SetLevel(log.TraceLevel)
-	log.Info("Started starter-go ")
-	log.Info("filename: " + viper.GetString("filename"))
-	log.Info("test: " + viper.GetString("test"))
-	log.Info("break: " + viper.GetString("break"))
+	log.Info("starter-go example program running")
 
-	//log.Fatal(loop...)
+	sample.ShowParams()
 }
 
 func configure() error {
