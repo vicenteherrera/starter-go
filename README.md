@@ -1,6 +1,8 @@
 # starter-go
 
-A starter Go language project
+A starter Go language project.
+
+Thanks to [Nestor](https://twitter.com/nestorsalceda) for teaching me how to structure this while working together.
 
 ## Introduction
 
