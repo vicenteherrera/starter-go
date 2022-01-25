@@ -15,6 +15,8 @@ run:
 test:
 	ginkgo -randomizeAllSpecs -randomizeSuites -failOnPending -trace -race -progress -cover -r
 
+# Container targets
+
 container-build:
 	docker build -f build/Containerfile -t vicenteherrera/starter-go .
 

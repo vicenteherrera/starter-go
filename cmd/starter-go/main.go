@@ -14,7 +14,6 @@ import (
 func main() {
 	if err := configure(); err != nil {
 		fmt.Printf("%s \n\n", err)
-
 		pflag.Usage()
 		os.Exit(1)
 	}
@@ -22,9 +21,9 @@ func main() {
 	log.SetOutput(os.Stdout)
 	log.SetLevel(log.TraceLevel)
 	log.Info("Started starter-go ")
-	log.Info("Server name: " + viper.GetString("server_name"))
-	log.Info("Server host: " + viper.GetString("host"))
-	log.Info("Server port: " + viper.GetString("port"))
+	log.Info("filename: " + viper.GetString("filename"))
+	log.Info("test: " + viper.GetString("test"))
+	log.Info("break: " + viper.GetString("break"))
 
 	//log.Fatal(loop...)
 }
@@ -41,16 +40,16 @@ func configure() error {
 		panic(fmt.Errorf("fatal error config file: %w", err))
 	}
 
-	pflag.String("server_name", "", "Server name")
-	pflag.Bool("test", false, "Run in test mode")
-	pflag.String("host", "localhost", "Host to use")
-	pflag.Int("port", 8080, "Port to use")
+	pflag.StringP("filename", "f", "", "Name of the file to test")
+	pflag.StringP("type", "t", "yaml", "File type")
+	pflag.String("test", "privileged", "Test to perform on file")
+	pflag.BoolP("break", "b", false, "Break on first error")
 
 	pflag.VisitAll(func(flag *pflag.Flag) { viper.BindPFlag(flag.Name, flag) })
 	pflag.Parse()
 
-	if viper.Get("server_name") == "" {
-		return errors.New("server_token is required")
+	if viper.Get("filename") == "" {
+		return errors.New("filename is required")
 	}
 
 	return nil

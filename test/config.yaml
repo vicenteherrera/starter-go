@@ -1,10 +1,6 @@
 # Server configurations
-server_name: "test"
-server:
-  host: "localhost"
-  port: 8000
+filename: "in.yaml"
+type: "yaml"
+test: "privileged"
+break: false
 
-# Database credentials
-database:
-  user: "admin"
-  pass: "super-pedro-1980"
