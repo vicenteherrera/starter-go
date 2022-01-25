@@ -6,6 +6,7 @@ import (
 	"os"
 
 	log "github.com/sirupsen/logrus"
+	analyzer "github.com/vicenteherrera/starter-go/pkg/analyzer/containerfile"
 	"github.com/vicenteherrera/starter-go/pkg/sample"
 
 	"github.com/spf13/pflag"
@@ -24,6 +25,10 @@ func main() {
 	log.Info("starter-go example program running")
 
 	sample.ShowParams()
+
+	client := analyzer.NewClient(viper.GetString("filename"))
+	client.AnalyzeFile()
+
 }
 
 func configure() error {
