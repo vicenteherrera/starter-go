@@ -1,10 +1,16 @@
 .PHONY: build
 
+all: build container-build-run
+
 build:
-	go build -o starter-go cmd/starter-go/main.go
+	go build -o ./release/starter-go cmd/starter-go/main.go
+
+build-release:
+	GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s" -o ./release/starter-go cmd/starter-go/main.go
+	strip ./release/starter-go
 
 run:
-	./starter-go
+	cd ./release && ./starter-go
 
 test:
 	ginkgo -randomizeAllSpecs -randomizeSuites -failOnPending -trace -race -progress -cover -r
