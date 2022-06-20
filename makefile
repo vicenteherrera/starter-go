@@ -31,9 +31,11 @@ install_ginkgo:
 # Container targets
 
 container-build:
-	docker build -f build/Containerfile -t vicenteherrera/starter-go .
+	if groups $$USER | grep -q '\bdocker\b'; then RUNSUDO="" ; else RUNSUDO="sudo" ; fi && \
+	    $$RUNSUDO docker build -f build/Containerfile -t vicenteherrera/starter-go .
 
 container-run:
-	docker run --rm -it -v "$$(pwd)"/test/in.yaml:/bin/in.yaml vicenteherrera/starter-go
+	if groups $$USER | grep -q '\bdocker\b'; then RUNSUDO="" ; else RUNSUDO="sudo" ; fi && \
+	    $$RUNSUDO docker run --rm -it -v "$$(pwd)"/test/in.yaml:/bin/in.yaml vicenteherrera/starter-go
 
 container-build-run: container-build container-run
