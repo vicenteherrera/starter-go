@@ -70,7 +70,19 @@ Take into consideration that if your code editor is erasing an import you added 
 
 ## Creating a Go program
 
-### First step and Go modules.
+### Using this repo as a starting point
+
+To use the files in this repo as a starting point and skip everything else, you have to do to it some modifications.
+
+* On `go.mod` change `module github.com/vicenteherrera/starter-go` for your repo and folder location.
+* Edit `cmd/starter-go/main.go`, change references from `github.com/vicenteherrera/starter-go` to your repo and folder.
+* Rename `cmd/starter-go` to the name you want for the project.
+* Edit `makefile` and change values for `TARGET_BIN`, `MAIN_DIR` and `CONTAINER_IMAGE`.
+* Edit `build/Containerfile` and change `ENTRYPOINT` value with your binary name.
+* Execute `go mod tidy`.
+* Check you can execute tests, build, run from local and in a container (see `makefile`).
+
+### First step and Go modules
 
 When starting a program you should use _Go modules_. It was an optional feature added some time ago, but now is the standard for handling and locating dependencies. [Learn more about Go modules here](https://go.dev/doc/tutorial/create-module).
 
