@@ -13,7 +13,15 @@ run:
 	cd ./release && ./starter-go
 
 test:
-	ginkgo -randomizeAllSpecs -randomizeSuites -failOnPending -trace -race -progress -cover -r
+# dependencies
+
+dependecies:
+	go version
+	ginkgo version
+
+install_ginkgo:
+	go install -mod=mod github.com/onsi/ginkgo/v2/ginkgo
+	go get github.com/onsi/gomega/...
 
 # Container targets
 
