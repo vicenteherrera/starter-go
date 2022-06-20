@@ -1,4 +1,4 @@
-.PHONY: build
+.PHONY: build test
 
 all: build container-build-run
 
@@ -13,6 +13,11 @@ run:
 	cd ./release && ./starter-go
 
 test:
+	ginkgo -randomize-all -randomize-suites -fail-on-pending -trace -race -progress -cover -r
+
+update:
+	go mod tidy
+
 # dependencies
 
 dependecies:
