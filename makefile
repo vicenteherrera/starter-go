@@ -40,6 +40,9 @@ container-build:
 
 container-run:
 	@if groups $$USER | grep -q '\bdocker\b'; then RUNSUDO="" ; else RUNSUDO="sudo" ; fi && \
-	    $$RUNSUDO docker run --rm -it -v "$$(pwd)"/test/in.yaml:/bin/in.yaml ${CONTAINER_IMAGE}
+	    $$RUNSUDO docker run --rm -it \
+		-v "$$(pwd)"/test/in.yaml:/bin/in.yaml \
+		-u $$(id -u $${USER}):$$(id -g $${USER}) \
+		${CONTAINER_IMAGE}
 
 container-build-run: container-build container-run
