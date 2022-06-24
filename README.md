@@ -208,6 +208,70 @@ Install [Ginkgo test suite](https://onsi.github.io/ginkgo/) with
 go install github.com/onsi/ginkgo/v2/ginkgo
 go install github.com/onsi/gomega/...
 ```
+Taps into existing Go testing infrastructure (tests live in *_test.go), using BDD.
+
+spec = individual test
+suite = collection of specs
+
+```bash
+# Initialize the test suit for the package
+cd pkg/analyzer
+ginkgo bootstrap
+
+# Create a spec for a file in the package
+ginko generate analyzer
+
+# Create suits and specs
+# ...
+
+# Execute tests
+ginkgo -randomize-all -randomize-suites -fail-on-pending -trace -race -progress -cover -r
+```
+
+Read more about [writing specs](https://onsi.github.io/ginkgo/#writing-specs).
+
+Example spec:
+```go
+var _ = Describe("Books", func() {
+  var book *books.Book
+
+  BeforeEach(func() {
+    book = &books.Book{
+      Title: "Les Miserables",
+      Author: "Victor Hugo",
+      Pages: 2783,
+    }
+    Expect(book.IsValid()).To(BeTrue())
+  })
+
+  Describe("Extracting the author's first and last name", func() {
+    Context("When the author has both names", func() {
+      It("can extract the author's last name", func() {        
+        Expect(book.AuthorLastName()).To(Equal("Hugo"))
+      })
+
+      It("can extract the author's first name", func() {
+        Expect(book.AuthorFirstName()).To(Equal("Victor"))
+      })      
+    })
+
+    Context("When the author only has one name", func() {
+      BeforeEach(func() {
+        book.Author = "Hugo"
+      })  
+
+      It("interprets the single author name as a last name", func() {
+        Expect(book.AuthorLastName()).To(Equal("Hugo"))
+      })
+
+      It("returns empty for the first name", func() {
+        Expect(book.AuthorFirstName()).To(BeZero())
+      })
+    })
+
+  })
+})
+```
 
 ### Gomock
 
@@ -222,3 +286,14 @@ Read [Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md
 ## Architecture
 
 Read [The Twelve-Factor App](https://12factor.net/).
+
+## Read more
+
+* [Go by example](https://gobyexample.com/)
+* [Golang programs](https://www.golangprograms.com/)
+* [Notes Go](https://notes.shichao.io/gopl/)
+* [Go first steps](https://docs.microsoft.com/en-us/learn/paths/go-first-steps/)
+* [GoLang Notes](https://sharbeargle.gitbooks.io/golang-notes/content/)
+* [ZetCode Go Tutorial](https://zetcode.com/all/#go)
+* [Iterate a YAML without knowing its structure](https://stackoverflow.com/questions/36765842/how-to-iterate-over-all-the-yaml-values-in-golang)
+* [Flexible YAML shapes in go](https://abhinavg.net/posts/flexible-yaml/)
