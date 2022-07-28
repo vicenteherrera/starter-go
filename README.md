@@ -273,15 +273,32 @@ var _ = Describe("Books", func() {
 })
 ```
 
+More information:
+* [Ginkgo](https://onsi.github.io/ginkgo/)
+* [Getting Started with BDD in Go Using Ginkgo](https://semaphoreci.com/community/tutorials/getting-started-with-bdd-in-go-using-ginkgo)
+* [Gomega](https://onsi.github.io/gomega/)
+
 ### Gomock
 
 Automatic Mock generation:
 * [Gomock](https://github.com/golang/mock/)
 
+Install binary
+```bash
+go install github.com/golang/mock/mockgen@v1.6.0
+```
+
+More information:
+* [Mocking techniques for go](https://www.myhatchpad.com/insight/mocking-techniques-for-go/)
+
 
 ## Code Style
 
 Read [Uber Go Style Guide](https://github.com/uber-go/guide/blob/master/style.md).
+
+## Debugging Go with Visual Studio Code
+
+It's not difficult to achieve, [this guide is obsolete in some regards](https://www.digitalocean.com/community/tutorials/debugging-go-code-with-visual-studio-code) but useful anyway.
 
 ## Architecture
 
