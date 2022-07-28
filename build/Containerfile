@@ -10,4 +10,4 @@ WORKDIR /app
 COPY --from=builder /source/release/ .
 
 ENTRYPOINT [ "/app/starter-go"]
-CMD ["--file","in.yaml"]
+CMD ["--filename","in.yaml"]
