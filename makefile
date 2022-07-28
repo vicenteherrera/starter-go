@@ -35,10 +35,12 @@ install_ginkgo:
 # Container targets
 
 container-build:
+	@echo "Building container image"
 	@if groups $$USER | grep -q '\bdocker\b'; then RUNSUDO="" ; else RUNSUDO="sudo" ; fi && \
 	    $$RUNSUDO docker build -f build/Containerfile -t ${CONTAINER_IMAGE} .
 
 container-run:
+	@echo "Running container image"
 	@if groups $$USER | grep -q '\bdocker\b'; then RUNSUDO="" ; else RUNSUDO="sudo" ; fi && \
 	    $$RUNSUDO docker run --rm -it \
 		-v "$$(pwd)"/test/in.yaml:/bin/in.yaml \
