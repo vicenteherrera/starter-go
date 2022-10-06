@@ -196,7 +196,9 @@ See the example usage on this repo in `cmd/starter-go/main.go`.
 
 ### Logging
 
-We will use [logrus](github.com/sirupsen/logrus).
+~~We will use [logrus](github.com/sirupsen/logrus).~~
+
+Logrus is now on maintenance mode, I will update with an alternative in the future.
 
 ## Testing
 
