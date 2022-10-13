@@ -1,7 +1,7 @@
 .PHONY: build test
 
 TARGET_BIN=starter-go
-MAIN_DIR=cmd/starter-go
+MAIN_DIR=.
 CONTAINER_IMAGE=vicenteherrera/starter-go
 
 all: build container-build-run
@@ -14,7 +14,7 @@ build-release:
 	strip ./release/${TARGET_BIN}
 
 run:
-	cd ./release && ./${TARGET_BIN}
+	cd ./release && ./${TARGET_BIN} --config ./config.yaml
 
 test:
 	ginkgo -randomize-all -randomize-suites -fail-on-pending -trace -race -progress -cover -r

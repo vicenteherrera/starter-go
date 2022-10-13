@@ -74,10 +74,12 @@ Take into consideration that if your code editor is erasing an import you added 
 
 To use the files in this repo as a starting point and skip everything else, you have to do to it some modifications.
 
-* On `go.mod` change `module github.com/vicenteherrera/starter-go` for your repo and folder location.
-* Edit `cmd/starter-go/main.go`, change references from `github.com/vicenteherrera/starter-go` to your repo and folder.
-* Rename `cmd/starter-go` to the name you want for the project.
-* Edit `makefile` and change values for `TARGET_BIN`, `MAIN_DIR` and `CONTAINER_IMAGE`.
+* Rename `cmd/starter-go` directory to the name you want for the project.
+* Edit file previous located at `cmd/starter-go/root.go`:
+  * change references from `github.com/vicenteherrera/starter-go/...` to your repo and folder.
+  * Change references from `starter-go` to the name of your program.
+* Edit `main.go` and change `github.com/vicenteherrera/starter-go/cmd/starter-go` to your repo and folder.
+* Edit `makefile` and change values for `TARGET_BIN` and `CONTAINER_IMAGE`.
 * Edit `build/Containerfile` and change `ENTRYPOINT` value with your binary name.
 * Execute `go mod tidy`.
 * Check you can execute tests, build, run from local and in a container (see `makefile`).
@@ -123,17 +125,41 @@ If you create a dependency on a different project that uses a naming scheme like
 go mod edit -replace example.com/mydep=../path-to-mydep
 ```
 
+### Using Cobra
+
+If you are building a Command Line Interface (CLI) binary as this example, you can use:
+
+[Viper](https://github.com/spf13/cobra) library will help you handle configuration from environment variables, a config file, or command line parameters.
+[Cobra](https://github.com/spf13/viper) library will help you setting a hierarchy of nested commands, with their own parameters that are locally, or can be inherit by any subcommands.
+
+You can use Viper on its own, or Cobra and Viper in conjuntion, even if you just set a root command with any further subcommands (as this example does).
+
+You can write your own Go code that uses the Cobra library, or install the [cobra-cli](https://github.com/spf13/cobra) library using `go install github.com/spf13/cobra-cli@latest`.
+
+You can use it to help create code for commands:
+
+```bash
+# Initialize a project with Cobra library code
+cobra-cli init
+# Add a new serve command
+cobra-cli add serve
+```
+
+See more infor in [cobra-cli documentation](https://github.com/spf13/cobra-cli/blob/main/README.md).
+
 ### Directory structure
 
 For a binary project the recommended directory structure is this:
 
 * `go.mod` (defines project base URL and requirements)
 * `go.sum` (locks specific dependecies version)
+* `main.go` (main file that bootstrap Cobra commands from cmd/starter-go)
 * `build/`
   * `Containerfile` (yes, this is a Dockerfile)
   * `Containerfile.containerignore`
 * `cmd/`
-  * `starter-go.go` (use the name of your binary/project)
+  * `starter-go/`
+    * `root.go` (root command that loads parameters starts real execution)
 * `docs/` (documentation in markdown format)
 * `pkg/`
   * `samplepkg/` (short package names preferred)
@@ -153,7 +179,7 @@ For a binary project the recommended directory structure is this:
 Just run:
 
 ```bash
-go build -o ./release/starter-go cmd/starter-go/main.go
+go build -o ./release/starter-go ./main.go
 # or using Makefile
 make build
 ```

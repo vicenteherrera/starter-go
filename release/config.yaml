@@ -1,4 +1,4 @@
-# App configurations
+# App configuration
 filename: "in.yaml"
 type: "yaml"
 test: "privileged"
