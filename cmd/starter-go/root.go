@@ -10,7 +10,6 @@ import (
 
 	log "github.com/sirupsen/logrus"
 	analyzer "github.com/vicenteherrera/starter-go/pkg/analyzer/containerfile"
-	"github.com/vicenteherrera/starter-go/pkg/sample"
 )
 
 var cfgFile string
@@ -29,8 +28,11 @@ starter-go help`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
 	RunE: func(cmd *cobra.Command, args []string) error {
-		if viper.GetString("filename") == "" {
-			return errors.New("Filename parameter is required")
+
+		filename := viper.GetViper().GetString("filename")
+
+		if filename == "" {
+			return errors.New("filename parameter is required")
 		}
 
 		log.SetOutput(os.Stdout)
@@ -38,8 +40,7 @@ starter-go help`,
 		log.Info("starter-go example program running")
 
 		// Main processing
-		sample.ShowParams()
-		client := analyzer.NewClient(viper.GetString("filename"))
+		client := analyzer.NewClient(filename)
 		client.AnalyzeFile()
 
 		return nil
@@ -48,11 +49,8 @@ starter-go help`,
 
 // Execute adds all child commands to the root command and sets flags appropriately.
 // This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
-		os.Exit(1)
-	}
+func Execute() error {
+	return rootCmd.Execute()
 }
 
 func init() {
@@ -62,7 +60,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.test.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.starter-go.yaml)")
 
 	// Cobra local flags, which will only run when this action is called directly.
 
@@ -71,15 +69,29 @@ func init() {
 	rootCmd.Flags().String("test", "privileged", "Test to perform on file")
 	rootCmd.Flags().BoolP("break", "b", false, "Break on first error")
 
-	//rootCmd.MarkFlagRequired("filename")
+	viper.BindPFlag("config", rootCmd.Flags().Lookup("config"))
+	viper.BindPFlag("filename", rootCmd.Flags().Lookup("filename"))
+	viper.BindPFlag("type", rootCmd.Flags().Lookup("type"))
+	viper.BindPFlag("test", rootCmd.Flags().Lookup("test"))
+	viper.BindPFlag("break", rootCmd.Flags().Lookup("break"))
 
+	viper.SetDefault("type", "yaml")
+	viper.SetDefault("test", "yaml")
+
+	// rootCmd.MarkFlagRequired("filename")
+	// rootCmd.MarkFlagsRequiredTogether("username", "password")
+	// rootCmd.MarkFlagsMutuallyExclusive("json", "yaml")
 }
 
 // initConfig reads in config file and ENV variables if set.
 func initConfig() {
 	if cfgFile != "" {
 		// Use config file from the flag.
-		viper.SetConfigFile(cfgFile)
+		if _, err := os.Stat(cfgFile); errors.Is(err, os.ErrNotExist) {
+			fmt.Fprintln(os.Stderr, "Config file not found:", cfgFile)
+		} else {
+			viper.SetConfigFile(cfgFile)
+		}
 	} else {
 		// Find home directory.
 		home, err := os.UserHomeDir()
@@ -97,5 +109,4 @@ func initConfig() {
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Fprintln(os.Stderr, "Using config file:", viper.ConfigFileUsed())
 	}
-
 }
