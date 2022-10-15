@@ -249,11 +249,14 @@ ginkgo bootstrap
 # Create a spec for a file in the package
 ginko generate analyzer
 
+# Dowload required packages
+go mod tidy
+
 # Create suits and specs
-# ...
+# (see below)
 
 # Execute tests
-ginkgo -randomize-all -randomize-suites -fail-on-pending -trace -race -progress -cover -r
+ginkgo -randomize-all -randomize-suites -fail-on-pending -trace -race -progress -cover -r -v
 ```
 
 Read more about [writing specs](https://onsi.github.io/ginkgo/#writing-specs).
@@ -274,7 +277,8 @@ var _ = Describe("Books", func() {
 
   Describe("Extracting the author's first and last name", func() {
     Context("When the author has both names", func() {
-      It("can extract the author's last name", func() {        
+      It("can extract the author's last name", func() {
+        fmt.Fprintf(GinkgoWriter, "Author Last Name:\n%s", book.AuthorLastName()) // output on test run when -v used
         Expect(book.AuthorLastName()).To(Equal("Hugo"))
       })
 

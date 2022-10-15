@@ -1,6 +1,10 @@
 package analyzer
 
-import log "github.com/sirupsen/logrus"
+import (
+	"errors"
+
+	log "github.com/sirupsen/logrus"
+)
 
 // First declare all public methods of the class
 type Client interface {
@@ -23,6 +27,11 @@ type client struct { //lowercase first letter = private
 func (s *client) AnalyzeFile() (AnalyzerResponse, error) { //uppercase first letter = public
 
 	var response AnalyzerResponse
+
+	if s.filepath == "" {
+		response.AnalysisStatus = "error"
+		return response, errors.New("filename shouldn't be blank")
+	}
 
 	// Processing
 	log.Info("Analyzing " + s.filepath)
