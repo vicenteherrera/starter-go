@@ -1,5 +1,10 @@
 # starter-go
 
+[![Go build](https://github.com/vicenteherrera/starter-go/actions/workflows/go-build.yaml/badge.svg?branch=main&event=push)](https://github.com/vicenteherrera/starter-go/actions/workflows/go-build.yaml)
+[![Go test unit](https://github.com/vicenteherrera/starter-go/actions/workflows/go-test-unit.yaml/badge.svg?branch=main&event=push)](https://github.com/vicenteherrera/starter-go/actions/workflows/go-build.yaml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/vicenteherrera/starter-go)](https://goreportcard.com/report/github.com/vicenteherrera/starter-go)
+[![Go Reference](https://pkg.go.dev/badge/github.com/vicenteherrera/starter-go.svg)](https://pkg.go.dev/github.com/vicenteherrera/starter-go)
+
 A starter Go language project.
 
 Thanks to [Nestor](https://twitter.com/nestorsalceda) for teaching me how to structure this while working together.
@@ -79,10 +84,12 @@ To use the files in this repo as a starting point and skip everything else, you 
   * change references from `github.com/vicenteherrera/starter-go/...` to your repo and folder.
   * Change references from `starter-go` to the name of your program.
 * Edit `main.go` and change `github.com/vicenteherrera/starter-go/cmd/starter-go` to your repo and folder.
-* Edit `makefile` and change values for `TARGET_BIN` and `CONTAINER_IMAGE`.
+* Edit `makefile` and change values for `GH_REPO`, `TARGET_BIN` and `CONTAINER_IMAGE`.
 * Edit `build/Containerfile` and change `ENTRYPOINT` value with your binary name.
 * Execute `go mod tidy`.
 * Check you can execute tests, build, run from local and in a container (see `makefile`).
+* Change installations scripts `install/install.sh` and `install/install.ps1` to point to your own repo.
+* Change `README.md` header badges and installation instructions to point to your own repo.
 
 ### Creating a project from scratch
 
@@ -184,7 +191,9 @@ go build -o ./release/starter-go ./main.go
 make build
 ```
 
-And a new binary `starter-go` will be generated on the project directory.
+The `makefile` target will use `ldflags` to stablish default value for the `version` variable inside the binary using the latest repo tag.
+
+And a new binary `starter-go` will be generated on the `./release/` directory.
 
 The binary requires configuration to run as an example. To use the provided one do:
 
@@ -192,6 +201,25 @@ The binary requires configuration to run as an example. To use the provided one 
 cd ./release && ./starter-go
 # or using Makefile
 make run
+```
+
+## Installation
+
+_These are the installation instructions you should use in your project._
+
+To install the latest release, go to [releases](https://github.com/vicenteherrera/starter-go/releases) and download the latest version for your platform, or use these script:
+
+```bash
+# Linux / MacOs (Bash): install binary to /usr/local/bin
+curl -fsSL https://raw.githubusercontent.com/vicenteherrera/starter-go/main/install/install.sh | sudo bash -s
+
+# Windows (Powershell)
+iwr https://raw.githubusercontent.com/vicenteherrera/starter-go/main/install/install.ps1 -useb | iex
+```
+
+You could install with `go install`, but you may get an unstable version not yet tagged.
+```bash
+go install github.com/vicenteherrera/go-starter@latest
 ```
 
 ## Building a container image
@@ -322,6 +350,22 @@ go install github.com/golang/mock/mockgen@v1.6.0
 
 More information:
 * [Mocking techniques for go](https://www.myhatchpad.com/insight/mocking-techniques-for-go/)
+
+## GitHub Actions workflows
+
+For automation we include some GitHub Actions workflows
+
+* **release.yaml**: Using `goreleaser/goreleaser-action`, prepares a release on repo tag push
+* **go-test-unit.yaml**: Executes `make test` to validate unit testing
+* **go-build.yaml**: Executes `make build` to validate unit testing
+
+Although you can have workflows that use specified published actions for building and/or testing, using the same `make` targets as you can execute locally makes it easier to validate their execution on your machine before reaching the workflow pipeline.
+
+Build and test are executed in separated workflow so it's easier which one of the two is failing without getting into the workflow's logs.
+
+Release will be prepare binaries for your project on selected architectures and operating systems when you push a tag to your repo. Using repo tags is also the required way of setting package versions in Go.
+
+You can use the badges in the beginning of this readme as example to include in you own project.
 
 
 ## Code Style
