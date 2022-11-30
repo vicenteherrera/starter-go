@@ -1,0 +1,34 @@
+---
+name: Go test e2e
+run-name: ${{ github.actor }} go test e2e 🚀
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - go.*
+      - "*.go"
+      - ./pkg
+      - ./cmd
+  pull_request:
+    branches: [master, main]
+    paths:
+      - go.*
+      - "*.go"
+      - ./pkg
+      - ./cmd
+  workflow_dispatch:
+  release:
+    types:
+      - published
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-go@v3
+        with:
+          go-version: '>=1.18.0'
+      - run: go version
+      - run: make install_ginkgo
+      - run: make build
+      - run: make test-e2e
