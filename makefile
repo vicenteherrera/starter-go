@@ -16,9 +16,10 @@ GIT_TAG := $(shell bash -c 'TAG=$$(git -c log.showSignature=false \
 # Go compilation flags for automatic versioning on git tags and commit digest
 
 LDFLAGS=-s -w \
-        -X github.com/${GH_REPO}/cmd/${TARGET_BIN}.version=$(GIT_TAG)\
-        -X github.com/${GH_REPO}/cmd/${TARGET_BIN}.commit=$(GIT_SHA)
-
+        -X github.com/${GH_REPO}/cmd/${TARGET_BIN}.version=$(GIT_TAG) \
+        -X github.com/${GH_REPO}/cmd/${TARGET_BIN}.commit=$(GIT_SHA) \
+		-X github.com/${GH_REPO}/cmd/${TARGET_BIN}.date=$(date +"%Y-%m-%dT%H:%M:%S%z") \
+		-X github.com/${GH_REPO}/cmd/${TARGET_BIN}.builtBy="makefile"
 
 # Building the image -------------------------------------------------
 

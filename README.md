@@ -191,8 +191,6 @@ go build -o ./release/starter-go ./main.go
 make build
 ```
 
-The `makefile` target will use `ldflags` to stablish default value for the `version` variable inside the binary using the latest repo tag.
-
 And a new binary `starter-go` will be generated on the `./release/` directory.
 
 The binary requires configuration to run as an example. To use the provided one do:
@@ -202,6 +200,17 @@ cd ./release && ./starter-go
 # or using Makefile
 make run
 ```
+
+## Versioning and releases
+
+[cmd/starter-go/version.go](./main/cmd/starter-go/version.go) includes variables to define current program version initalized as `unknown`.
+
+The `go build` included in `makefile` specifies use `ldflags` to stablish default value for those variables inside the binary using the latest repo tag, commit, date, etc.
+
+To also set those variables when releasing using the goreleaser GitHub action, the [.goreleaser.yml](main/.goreleaser.yml) variable sets which ldflags to set for our specific case, as [explained here](https://goreleaser.com/customization/build/).
+
+To automatically create a release, create a `vX.Y.Z` tag (remember to use [semantic versioning](https://semver.org/)) and push it to GitHub. A workflow will be triggered that includes commit messages as description.
+
 
 ## Installation
 

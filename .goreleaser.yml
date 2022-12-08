@@ -1,0 +1,38 @@
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - main: "."
+    binary: psa-checker
+    goos:
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    ignore:
+      - goos: darwin
+        goarch: arm
+      - goos: windows
+        goarch: arm
+      - goos: windows
+        goarch: arm64
+    env:
+      - CGO_ENABLED=0
+    ldflags: -s -w
+      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.version={{.Version}}
+      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.commit={{.Commit}}
+      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.date={{.Date}}
+      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.builtBy=goreleaser
+checksum:
+  name_template: "{{ .ProjectName }}_checksums.txt"
+
+archives:
+  - name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}"
+
+snapshot:
+  name_template: "{{ .Tag }}-next"
+
