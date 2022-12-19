@@ -4,7 +4,7 @@ before:
 
 builds:
   - main: "."
-    binary: psa-checker
+    binary: starter-go
     goos:
       - darwin
       - linux
@@ -23,10 +23,10 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags: -s -w
-      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.version={{.Version}}
-      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.commit={{.Commit}}
-      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.date={{.Date}}
-      -X github.com/vicenteherrera/psa-checker/cmd/psa-checker.builtBy=goreleaser
+      -X github.com/vicenteherrera/starter-go/cmd/version.version={{.Version}}
+      -X github.com/vicenteherrera/starter-go/cmd/version.commit={{.Commit}}
+      -X github.com/vicenteherrera/starter-go/cmd/version.date={{.Date}}
+      -X github.com/vicenteherrera/starter-go/cmd/version.builtBy=goreleaser
 checksum:
   name_template: "{{ .ProjectName }}_checksums.txt"
 
