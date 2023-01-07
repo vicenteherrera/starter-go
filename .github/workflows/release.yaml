@@ -17,9 +17,13 @@ jobs:
           go-version: ^1.19
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Go build cache
+        uses: actions/cache@v3
         with:
-          fetch-depth: 0
-
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
       - name: Launch goreleaser
         uses: goreleaser/goreleaser-action@v3
         with:
