@@ -1,5 +1,5 @@
 name: Go build
-run-name: ${{ github.actor }} is executing GitHub actions for go build 🚀
+run-name: ${{ github.actor }} executing go build 🚀
 on: 
   push:
     branches:
