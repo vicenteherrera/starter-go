@@ -1,14 +1,22 @@
 name: Go build
 run-name: ${{ github.actor }} executing go build 🚀
-on: 
+on:
   push:
-    branches:
-      - master
-      - main
+    branches: [master, main]
+    paths:
+      - go.*
+      - "*.go"
+      - ./pkg
+      - ./cmd
+      - ./.github/workflows
   pull_request:
-    branches:
-      - master
-      - main
+    branches: [master, main]
+    paths:
+      - go.*
+      - "*.go"
+      - ./pkg
+      - ./cmd
+      - ./.github/workflows      
   workflow_dispatch:
   release:
     types:
