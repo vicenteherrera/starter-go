@@ -17,12 +17,16 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Go 
+        uses: actions/setup-go@v3
         with:
           go-version: '>=1.18.0'
-      - run: make install_ginkgo
-      - run: make mod_download
+      - name: Setup Ginkgo
+        run: make install_ginkgo
+      - name: Download dependencies
+        run: make mod_download
       - run: make build
       - run: make run
       - run: make test
