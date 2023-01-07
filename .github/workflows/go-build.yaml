@@ -1,14 +1,22 @@
 name: Go build
-run-name: ${{ github.actor }} is executing GitHub actions for go build 🚀
-on: 
+run-name: ${{ github.actor }} executing go build 🚀
+on:
   push:
-    branches:
-      - master
-      - main
+    branches: [master, main]
+    paths:
+      - go.*
+      - "*.go"
+      - ./pkg
+      - ./cmd
+      - ./.github/workflows
   pull_request:
-    branches:
-      - master
-      - main
+    branches: [master, main]
+    paths:
+      - go.*
+      - "*.go"
+      - ./pkg
+      - ./cmd
+      - ./.github/workflows      
   workflow_dispatch:
   release:
     types:
@@ -17,12 +25,31 @@ jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup Go 
+        uses: actions/setup-go@v3
         with:
           go-version: '>=1.18.0'
-      - run: make install_ginkgo
-      - run: make mod_download
-      - run: make build
-      - run: make run
-      - run: make test
+      - name: Setup Ginkgo
+        run: make install_ginkgo
+      - name: Download dependencies
+        run: make mod_download
+      - name: Verify go.sum for changes
+        run: git diff -s --exit-code go.sum
+      - name: Setup cache
+        uses: actions/cache@v3
+        with:
+          path: ~/go/pkg/mod
+          key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
+          restore-keys: |
+            ${{ runner.os }}-go-
+      - name: Unit testing
+        run: make test            
+      - name: Go build
+        run: make build
+      - name: Trial run
+        run: make run
+      - name: End-to-end tests
+        run: make test-e2e
+

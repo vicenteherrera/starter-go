@@ -22,11 +22,13 @@ builds:
         goarch: arm64
     env:
       - CGO_ENABLED=0
-    ldflags: -s -w
-      -X github.com/vicenteherrera/starter-go/cmd/version.version={{.Version}}
-      -X github.com/vicenteherrera/starter-go/cmd/version.commit={{.Commit}}
-      -X github.com/vicenteherrera/starter-go/cmd/version.date={{.Date}}
-      -X github.com/vicenteherrera/starter-go/cmd/version.builtBy=goreleaser
+    ldflags: 
+      - -s 
+      - -w
+      - -X github.com/vicenteherrera/starter-go/cmd.version={{.Version}}
+      - -X github.com/vicenteherrera/starter-go/cmd.commit={{.Commit}}
+      - -X github.com/vicenteherrera/starter-go/cmd.date={{.Date}}
+      - -X github.com/vicenteherrera/starter-go/cmd.builtBy=goreleaser
 checksum:
   name_template: "{{ .ProjectName }}_checksums.txt"
 
