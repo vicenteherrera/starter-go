@@ -79,10 +79,19 @@ lint-containerfile:
 # Tests -------------------------------------------
 
 .PHONY: test
-# execute tests
+# Execute tests using Ginkgo
 test:
 	ginkgo -randomize-all -randomize-suites -fail-on-pending -trace -race -progress -cover -r -v
 
+.PHONY: vet
+# Check and report suspicious constructs or errors in Go code
+vet:
+	go vet -v
+
+.PHONY: test-noginkgo
+# Run test without need to install Ginkgo, same validation with less message structure
+test-noginkgo:
+	go test -v ./... -args -ginkgo.v
  
 # Dependencies ------------------------------------
 
@@ -134,9 +143,9 @@ container-build:
 container-run:
 	@echo "Running container image"
 	@${RUNSUDO} docker run --rm -it \
-		-v "$$(pwd)"/test/in.yaml:/bin/in.yaml \
+		-v "$$(pwd)"/test/:/data/ \
 		-u $$(id -u $${USER}):$$(id -g $${USER}) \
-		${CONTAINER_IMAGE}
+		${CONTAINER_IMAGE} --filename /data/in.yaml
 
 .PHONY: push
 # push the container image
